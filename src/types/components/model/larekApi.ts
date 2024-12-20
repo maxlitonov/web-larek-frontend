@@ -16,5 +16,5 @@ export interface Product {
 
 export interface ILarekApi {
   getProducts: () => Promise<Product[]>
-  orderProducts: (order: Order) => Promise<OrderResult[]>
+  orderProducts: (order: Order) => Promise<OrderResult>
 }

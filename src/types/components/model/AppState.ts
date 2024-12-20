@@ -13,10 +13,10 @@ export enum AppStateModals {
 // Модель данных приложения
 export interface AppState {
   // Загружаемые с сервера данные
-  products: Map<string, Product>;
+  products: Product[];
 
   // Заполняемые пользователем данные
-  basket: Map<string, Product>
+  basket: Product[];
   basketTotal: number;
   order: Order;
 
@@ -33,4 +33,11 @@ export interface AppState {
   // Методы для работы с модальными окнами
 	openModal(modal: AppStateModals): void;
 	setMessage(message: string | null, isError: boolean): void;
+
+  // Методы связанные с корзиной
+  addToBasket(prodcut: Product): void;
+
+  getTotal(): number;
+  
+  clearBasket(): void;
 }

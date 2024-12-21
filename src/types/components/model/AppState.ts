@@ -1,5 +1,13 @@
 import { Order, OrderResult } from "../view/Order";
-import { Product } from "./larekApi";
+
+export interface Product {
+	id: string;
+	description: string;
+	image: string;
+	title: string;
+	category: string;
+	price: number;
+}
 
 // Какие модальные окна у нас есть
 export enum AppStateModals {
@@ -13,7 +21,7 @@ export enum AppStateModals {
 // Модель данных приложения
 export interface AppState {
   // Загружаемые с сервера данные
-  products: Product[];
+  items: Product[];
 
   // Заполняемые пользователем данные
   basket: Product[];
@@ -34,8 +42,11 @@ export interface AppState {
 	openModal(modal: AppStateModals): void;
 	setMessage(message: string | null, isError: boolean): void;
 
-  // Методы связанные с корзиной
+  setItems(items: Product[]):void;
+
   addToBasket(prodcut: Product): void;
+
+  removeFromBasket(id: number): void;
 
   getTotal(): number;
   

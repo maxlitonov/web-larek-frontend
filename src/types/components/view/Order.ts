@@ -2,7 +2,7 @@ export interface Order {
 	payment: 'card' | 'cash';
 	address: string;
 	email: string;
-	tel: number;
+	tel: string;
 }
 
 export interface OrderResult extends Order{

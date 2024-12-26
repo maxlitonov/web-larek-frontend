@@ -1,8 +1,11 @@
-import { categories } from "../../utils/constants";
+import { Product } from "../../types/components/model/AppState";
+import { ICardActions, categories } from "../../types/components/view/Card";
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
+import { EventEmitter } from "../base/EventEmitter";
 
-export class Card extends Component<Card> {
+export class Card extends Component<Product> {
+  protected _id: number;
   protected _description?: HTMLElement;
   protected _image?: HTMLImageElement;
   protected _title: HTMLElement;
@@ -10,7 +13,7 @@ export class Card extends Component<Card> {
   protected _price: HTMLElement;
   protected _button?: HTMLButtonElement;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, protected events: EventEmitter, actions?: ICardActions) {
     super(container);
 
     this._description = container.querySelector('.card__text') as HTMLElement;
@@ -19,6 +22,14 @@ export class Card extends Component<Card> {
     this._category = container.querySelector('.card__category') as HTMLElement;
     this._price = ensureElement<HTMLElement>('.card__price', container) as HTMLElement;
     this._button = container.querySelector('.card__button') as HTMLButtonElement;
+
+    if (actions?.onClick) {
+      if (this._button) {
+          this._button.addEventListener('click', actions.onClick);
+      } else {
+          container.addEventListener('click', actions.onClick);
+      }
+    }
   }
 
   set id(value: string) {
@@ -56,9 +67,7 @@ export class Card extends Component<Card> {
 
   set price(value: string) {
     this.setText(this._price, value ? `${value} синапсов`: 'Бесценно');
-    if(!value) {
-      this._button.disabled = true;
-    }
+    this.toggleClass(this._button, 'disabled', !value)
   }
 
   get price() {

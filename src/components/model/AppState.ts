@@ -1,11 +1,11 @@
 import { IEvents } from "../../types/components/base/EventEmitter";
 import { Model } from "../base/Model";
 import { Order } from "../../types/components/view/Order";
-import { AppStateModals, Product } from "../../types/components/model/AppState";
+import { IAppState, Product } from "../../types/components/model/AppState";
 
-export class AppState extends Model <AppState> {
-  items: Product[];
-  basket: Product[];
+export class AppState extends Model <IAppState> {
+  items: Product[] = [];
+  basket: Product[] = [];
 	basketTotal: number;
 
 	order: Order = {
@@ -14,39 +14,31 @@ export class AppState extends Model <AppState> {
 		email: '',
 		tel: ''
 	};
-	
-	// Состояние интерфейса
-	openedModal: AppStateModals;
-	isOrderReady: boolean;
-	modalMessage: string | null;
-	isError: boolean;
-	
-	// Методы для работы с модальными окнами
-	// openModal(modal: AppStateModals) {
-
-	// };
-
-	// setMessage(message: string | null, isError: boolean) {
-
-	// };
 
 	// Инициализация массива
 	setItems(items: Product[]) {
 		this.items = items;
+		this.emitChanges('cards:changed');
+	}
+
+	getItems() {
+		return this.items;
 	}
 	
 	// Добавить в корзину
-	addToBasket(prodcut: Product) {
-
+	addToBasket(product: Product) {
+		this.basket.push(product);
+		this.basketTotal += product.price;
 	};
 
 	// Удалить из корзины
-	removeFromBasket(id: number) {
-
+	removeFromBasket(product: Product) {
+		this.basket = this.basket.filter(item => item.id !== product.id);
+		this.basketTotal -= product.price;
 	};
 	
 	// Получить кол-во в корзине
-	getTotal(): number {
+	getBasketTotal(): number {
 		return this.basketTotal;
 	};
 

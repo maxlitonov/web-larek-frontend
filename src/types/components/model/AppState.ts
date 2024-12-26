@@ -19,7 +19,7 @@ export enum AppStateModals {
 }
 
 // Модель данных приложения
-export interface AppState {
+export interface IAppState {
   // Загружаемые с сервера данные
   items: Product[];
 

@@ -1,3 +1,5 @@
-export interface Basket {
-  
+export interface IBasket {
+  products: HTMLElement[];
+  total: number;
+  selected: string[];
 }

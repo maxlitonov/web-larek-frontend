@@ -1,5 +1,5 @@
 import { Order, OrderResult } from "../view/Order";
-import { Product } from "./AppState";
+import { IProduct } from "./AppState";
 
 
 export type ApiListResponse<Type> = {
@@ -7,7 +7,7 @@ export type ApiListResponse<Type> = {
   items: Type[]
 };
 
-export interface ProductApi extends Product {
+export interface ProductApi extends IProduct {
 
 };
 

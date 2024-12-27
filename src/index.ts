@@ -52,3 +52,13 @@ api.getProducts()
 .catch(err => {
   console.error(err);
 })
+
+appState.addToBasket({id: '123', title: '123', description: 'string',
+	image: 'string',
+	category: 'soft-skill',
+	price: 10900})
+
+appState.removeFromBasket({id: '123', title: '123', description: 'string',
+	image: 'string',
+	category: 'soft-skill',
+	price: 10900})

@@ -1,10 +1,10 @@
-import { Product } from "../../types/components/model/AppState";
+import { IProduct } from "../../types/components/model/AppState";
 import { ICardActions, categories } from "../../types/components/view/Card";
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { EventEmitter } from "../base/EventEmitter";
 
-export class Card extends Component<Product> {
+export class Card extends Component<IProduct> {
   protected _id: number;
   protected _description?: HTMLElement;
   protected _image?: HTMLImageElement;
@@ -67,7 +67,7 @@ export class Card extends Component<Product> {
 
   set price(value: string) {
     this.setText(this._price, value ? `${value} синапсов`: 'Бесценно');
-    this.toggleClass(this._button, 'disabled', !value)
+    this.setDisabled(this._button, !value)
   }
 
   get price() {

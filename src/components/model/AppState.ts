@@ -1,12 +1,12 @@
 import { IEvents } from "../../types/components/base/EventEmitter";
 import { Model } from "../base/Model";
 import { Order } from "../../types/components/view/Order";
-import { IAppState, Product } from "../../types/components/model/AppState";
+import { IAppState, IProduct } from "../../types/components/model/AppState";
 
 export class AppState extends Model <IAppState> {
-  items: Product[] = [];
-  basket: Product[] = [];
-	basketTotal: number;
+  items: IProduct[] = [];
+  basket: string[] = [];
+	basketTotal: number = 0;
 
 	order: Order = {
 		payment: 'card',
@@ -16,7 +16,7 @@ export class AppState extends Model <IAppState> {
 	};
 
 	// Инициализация массива
-	setItems(items: Product[]) {
+	setItems(items: IProduct[]) {
 		this.items = items;
 		this.emitChanges('cards:changed');
 	}
@@ -26,15 +26,17 @@ export class AppState extends Model <IAppState> {
 	}
 	
 	// Добавить в корзину
-	addToBasket(product: Product) {
-		this.basket.push(product);
+	addToBasket(product: IProduct) {
+		this.basket.push(product.id);
 		this.basketTotal += product.price;
+		this.events.emit('basket:change', this.basket);
 	};
 
 	// Удалить из корзины
-	removeFromBasket(product: Product) {
-		this.basket = this.basket.filter(item => item.id !== product.id);
+	removeFromBasket(product: IProduct) {
+		this.basket = this.basket.filter(id => id !== product.id);
 		this.basketTotal -= product.price;
+		this.events.emit('basket:change');
 	};
 	
 	// Получить кол-во в корзине

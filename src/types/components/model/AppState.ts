@@ -6,7 +6,7 @@ export interface IProduct {
 	image: string;
 	title: string;
 	category: string;
-	price: number;
+	price: number | null;
 }
 
 export type FormErrors = Partial<Record<keyof Order, string>>;

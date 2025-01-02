@@ -38,16 +38,20 @@ events.on('card:changed', () => {
   }).render(item))
   page.render({
     productList: itemsHTMLArray,
-    basketCounter: page.basketCounter
+    basketCounter: appState.basket.length
   })
 })
 
+// Открыть карточку
+events.on('card:select', (item: IProduct) => {
+  appState.setPreview(item);
+});
+
 // Изменен preview card
 events.on('preview:changed', (item: IProduct) => {
-	const isInBasket = appState.basket.includes(item.id);
   const card = new Card(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
-			if(isInBasket) {
+			if(appState.basket.includes(item.id)) {
 				appState.removeFromBasket(item);
 				card.button = 'В корзину';
 			} else {
@@ -56,21 +60,18 @@ events.on('preview:changed', (item: IProduct) => {
 			}
 		}
 	});
-	card.button = isInBasket? 'Удалить из корзины' : 'В корзину';
+	card.button = appState.basket.includes(item.id)? 'Удалить из корзины' : 'В корзину';
 	modal.render({
 		content: card.render(item)
 	})
 });
 
-// Открыть карточку
-events.on('card:select', (item: IProduct) => {
-  appState.setPreview(item);
-});
 
-events.on('card:addToBasket', (obj) => {
+
+events.on('basket:changed', (obj) => {
   
   page.render({
-    basketCounter: appState.getBasketTotal()
+    basketCounter: appState.basket.length
   })
 })
 

@@ -64,14 +64,10 @@ export class Card extends Component<IProduct> {
 		this._category.classList.add(`card__category_${categories.has(value)? categories.get(value): 'other' }`)
   }
 
-  set price(value: string) {
+  set price(value: number) {
     this.setText(this._price, value ? `${value} синапсов`: 'Бесценно');
     this.setDisabled(this._button, !value)
   }
-
-  get price() {
-    return this._price.textContent || '';
-  }  
 
   set button(value: string) {
 		this.setText(this._button, value);

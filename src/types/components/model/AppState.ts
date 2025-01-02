@@ -9,6 +9,8 @@ export interface IProduct {
 	price: number;
 }
 
+export type FormErrors = Partial<Record<keyof Order, string>>;
+
 // Модель данных приложения
 export interface IAppState {
   // Загружаемые с сервера данные

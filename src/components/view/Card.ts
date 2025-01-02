@@ -2,7 +2,6 @@ import { IProduct } from "../../types/components/model/AppState";
 import { ICardActions, categories } from "../../types/components/view/Card";
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
-import { EventEmitter } from "../base/EventEmitter";
 
 export class Card extends Component<IProduct> {
   protected _id: number;
@@ -13,7 +12,7 @@ export class Card extends Component<IProduct> {
   protected _price: HTMLElement;
   protected _button?: HTMLButtonElement;
 
-  constructor(container: HTMLElement, protected events: EventEmitter, actions?: ICardActions) {
+  constructor(container: HTMLElement, actions?: ICardActions) {
     super(container);
 
     this._description = container.querySelector('.card__text') as HTMLElement;

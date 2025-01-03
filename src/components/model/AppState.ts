@@ -47,11 +47,6 @@ export class AppState extends Model <IAppState> {
 		this.basketTotal -= product.price;
 		this.events.emit('basket:changed');
 	};
-	
-	// Получить кол-во в корзине
-	getBasketTotal(): number {
-		return this.basketTotal;
-	};
 
 	// Очистить корзину
 	clearBasket() {

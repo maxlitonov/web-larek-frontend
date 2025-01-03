@@ -1,5 +1,6 @@
 import { IProduct } from "../../types/components/model/AppState";
-import { ICardActions, categories } from "../../types/components/view/Card";
+import { ICardActions } from "../../types/components/view/Card";
+import { categories } from "../../utils/constants";
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
@@ -60,9 +61,12 @@ export class Card extends Component<IProduct> {
   }
 
   set category(value: string) {
-		this.setText(this._category, value);
-		this._category.classList.add(`card__category_${categories.has(value)? categories.get(value): 'other' }`)
-  }
+		if (this._category) {
+      this.setText(this._category, value);
+			this._category.classList.add(
+				`card__category_${categories.has(value) ? categories.get(value) : 'other'}`);
+		}
+	}
 
   set price(value: number) {
     this.setText(this._price, value ? `${value} синапсов`: 'Бесценно');

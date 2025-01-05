@@ -1,7 +1,7 @@
 export interface ISuccess {
-  total: number;
+	total: number;
 }
 
 export interface ISuccessActions {
-  onClick: () => void;
+	onClick: () => void;
 }

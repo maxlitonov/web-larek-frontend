@@ -1,12 +1,12 @@
 import { Form } from '../common/Form';
 import {
-	TOrderPayment,
+	TOrderForm,
 	TOrderPaymentMethod,
 } from '../../types/components/view/Order';
 import { IEvents } from '../../types/components/base/EventEmitter';
 import { ensureElement } from '../../utils/utils';
 
-export class OrderPaymentForm extends Form<TOrderPayment> {
+export class OrderPaymentForm extends Form<TOrderForm> {
 	protected _address: HTMLInputElement;
 	protected _paymentCash: HTMLButtonElement;
 	protected _paymentCard: HTMLButtonElement;

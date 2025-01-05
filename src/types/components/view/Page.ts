@@ -1,5 +1,5 @@
 export interface IPage {
-  productList: HTMLElement[];
-  basketCounter: number;
-  locked: boolean;
+	productList: HTMLElement[];
+	basketCounter: number;
+	locked: boolean;
 }

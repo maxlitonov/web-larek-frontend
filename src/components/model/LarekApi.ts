@@ -1,5 +1,5 @@
 import { ApiListResponse, ProductApi } from "../../types/components/model/larekApi";
-import { Order, OrderResult } from "../../types/components/view/Order";
+import { IOrder, IOrderResult } from "../../types/components/view/Order";
 import { Api } from "../base/Api";
 
 export class larekApi extends Api implements larekApi {
@@ -19,9 +19,9 @@ export class larekApi extends Api implements larekApi {
     );
 }
 
-  orderProducts(order: Order): Promise<OrderResult> {
+  orderProducts(order: IOrder): Promise<IOrderResult> {
     return this.post('/order', order).then(
-        (data: OrderResult) => data
+        (data: IOrderResult) => data
     );
 }
 }

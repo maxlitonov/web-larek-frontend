@@ -1,20 +1,18 @@
-import { IEvents } from "../../types/components/base/EventEmitter";
 import { Model } from "../base/Model";
-import { Order } from "../../types/components/view/Order";
+import { IOrder, TOrderContacts, TOrderPaymentMethod } from "../../types/components/view/Order";
 import { FormErrors, IAppState, IProduct } from "../../types/components/model/AppState";
 
 export class AppState extends Model <IAppState> {
   items: IProduct[] = [];
   basket: string[] = [];
 	basketTotal: number = 0;
-
-	order: Order = {
+	order: IOrder = {
 		payment: 'card',
 		address: '',
 		email: '',
-		tel: ''
+		phone: '',
+		items: []
 	};
-
 	preview: string | null;
   formErrors: FormErrors = {}
 
@@ -29,6 +27,7 @@ export class AppState extends Model <IAppState> {
 		return this.items;
 	}
 
+	// Задать preview
 	setPreview(item: IProduct) {
 		this.preview = item.id;
 		this.emitChanges('preview:changed', item);
@@ -50,7 +49,47 @@ export class AppState extends Model <IAppState> {
 
 	// Очистить корзину
 	clearBasket() {
-
+		this.basket = [];
+		this.basketTotal = 0;
+		this.events.emit('basket:change');
 	}
+
+	// Задать оплату
+	setPayment(method: TOrderPaymentMethod) {
+		this.order.payment = method;
+	}
+
+	// Очистить order
+	clearOrder() {
+		this.order = {
+			email: '',
+			phone: '',
+			address: '',
+			payment: 'card',
+			items: []
+		};
+	}
+
+	setOrderField(field: keyof TOrderContacts, value: string) {
+		this.order[field] = value;
+
+		if (this.validateOrder()) {
+				this.events.emit('order:ready', this.order);
+		}
+}
+
+validateOrder() {
+		const errors: typeof this.formErrors = {};
+		if (!this.order.email) {
+				errors.email = 'Необходимо указать email';
+		}
+		if (!this.order.phone) {
+				errors.phone = 'Необходимо указать телефон';
+		}
+		this.formErrors = errors;
+		this.events.emit('paymentFormErrors:changed', this.formErrors);
+		return Object.keys(errors).length === 0;
+}
+
   
 }

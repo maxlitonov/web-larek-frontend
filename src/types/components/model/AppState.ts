@@ -1,4 +1,4 @@
-import { Order, OrderResult } from "../view/Order";
+import { IOrder } from "../view/Order";
 
 export interface IProduct {
 	id: string;
@@ -9,31 +9,13 @@ export interface IProduct {
 	price: number | null;
 }
 
-export type FormErrors = Partial<Record<keyof Order, string>>;
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 // Модель данных приложения
 export interface IAppState {
-  // Загружаемые с сервера данные
   items: IProduct[];
-
-  // Заполняемые пользователем данные
-  basket: IProduct[];
+  basket: string[];
   basketTotal: number;
-  order: Order;
-
-  // Действия с API
-  loadProducts(): Promise<void>
-  orderProducts: (order: Order) => Promise<OrderResult[]>
-
-  // Методы для работы с модальными окнами
-
-  setItems(items: IProduct[]):void;
-
-  addToBasket(prodcut: IProduct): void;
-
-  removeFromBasket(id: number): void;
-
-  getTotal(): number;
-  
-  clearBasket(): void;
+  preview: string | null;
+  order: IOrder;
 }

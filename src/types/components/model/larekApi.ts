@@ -1,4 +1,4 @@
-import { Order, OrderResult } from '../view/Order';
+import { IOrder, IOrderResult } from '../view/Order';
 import { IProduct } from './AppState';
 
 export type ApiListResponse<Type> = {
@@ -10,5 +10,5 @@ export interface ProductApi extends IProduct {}
 
 export interface ILarekApi {
 	getProducts: () => Promise<ProductApi[]>;
-	orderProducts: (order: Order) => Promise<OrderResult>;
+	orderProducts: (order: IOrder) => Promise<IOrderResult>;
 }

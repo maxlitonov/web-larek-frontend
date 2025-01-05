@@ -9,6 +9,10 @@ import { Page } from './components/view/Page';
 import { IProduct } from './types/components/model/AppState';
 import { Modal } from './components/common/Modal';
 import { Basket } from './components/view/Basket';
+import { OrderPaymentForm } from './components/view/OrderPaymentForm';
+import { OrderContactsForm } from './components/view/OrderContactsForm';
+import { Success } from './components/view/Success';
+import { IOrder, TOrderContacts } from './types/components/view/Order';
 
 // Шаблоны
 const successTemplate = document.querySelector('#success') as HTMLTemplateElement;
@@ -32,6 +36,11 @@ const api = new larekApi(CDN_URL, API_URL);
 const page = new Page(document.querySelector('.page__wrapper') as HTMLElement, events);
 const modal = new Modal(ensureElement<HTMLElement>('#modal-container'), events);
 const basket = new Basket(cloneTemplate(basketTemplate), events);
+const paymentForm = new OrderPaymentForm(cloneTemplate(orderTemplate), events);
+const contactsForm = new OrderContactsForm(cloneTemplate(contactsTemplate), events);
+const success = new Success(cloneTemplate(successTemplate), {
+	onClick: () => modal.close()
+	});
 
 // Инициализация массива
 events.on('card:changed', () => {
@@ -49,7 +58,7 @@ events.on('card:select', (item: IProduct) => {
   appState.setPreview(item);
 });
 
-// Изменение preview card
+// Изменен открытый выбранный лот
 events.on('preview:changed', (item: IProduct) => {
   const card = new Card(cloneTemplate(cardPreviewTemplate), {
 		onClick: () => {
@@ -89,6 +98,59 @@ events.on('basket:changed', () => {
     basketCounter: appState.basket.length
   })
 })
+
+// Отркыть payment order
+events.on('order:open', () => {
+	appState.clearOrder();
+	modal.render({
+		content: paymentForm.render({
+			payment: 'card',
+			address: '',
+			valid: false,
+			errors: [],
+		}),
+	});
+});
+
+// Кнопка submit payment
+events.on('payment:submit', () => {
+	modal.render({
+		content: contactsForm.render({
+			email: '',
+			phone: '',
+			valid: false,
+			errors: [],
+		}),
+	});
+});
+
+// Кнопка submit contacts
+events.on('contacts:submit', () => {
+	api
+		.orderProducts(appState.order)
+		.then((data) => {
+			modal.render({
+				content: success.render(),
+			});
+			success.total = data.total;
+			appState.clearBasket();
+			appState.clearOrder();
+		})
+		.catch(console.error)
+});
+
+///////////////////////////////////
+events.on('paymentFormErrors:changed', (errors: Partial<TOrderContacts>) => {
+	const { email, phone } = errors;
+	paymentForm.valid = !email && !phone;
+	paymentForm.errors = Object.values({phone, email}).filter(i => !!i).join('; ');
+});
+
+// Изменилось одно из полей
+events.on(/^order\..*:change/, (data: { field: keyof TOrderContacts, value: string }) => {
+	appState.setOrderField(data.field, data.value);
+});
+/////////////////////////////////////////////////////////
 
 // Блокируем прокрутку страницы если открыта модалка
 events.on('modal:open', () => {

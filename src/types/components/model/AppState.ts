@@ -1,4 +1,4 @@
-import { IOrder } from "../view/Order";
+import { IOrder } from '../view/Order';
 
 export interface IProduct {
 	id: string;
@@ -13,9 +13,10 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 // Модель данных приложения
 export interface IAppState {
-  items: IProduct[];
-  basket: string[];
-  basketTotal: number;
-  preview: string | null;
-  order: IOrder;
+	items: IProduct[];
+	basket: string[];
+	basketTotal: number;
+	order: IOrder;
+	preview: string | null;
+	formErrors: FormErrors;
 }

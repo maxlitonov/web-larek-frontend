@@ -1,11 +1,12 @@
 import {
 	ApiListResponse,
+	ILarekApi,
 	ProductApi,
 } from '../../types/components/model/larekApi';
 import { IOrder, IOrderResult } from '../../types/components/view/Order';
 import { Api } from '../base/Api';
 
-export class larekApi extends Api implements larekApi {
+export class larekApi extends Api implements ILarekApi {
 	readonly cdn: string;
 
 	constructor(cdn: string, baseUrl: string, options?: RequestInit) {

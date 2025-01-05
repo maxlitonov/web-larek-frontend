@@ -5,7 +5,6 @@ import { ensureElement } from '../../utils/utils';
 import { Component } from '../base/Component';
 
 export class Card extends Component<IProduct> {
-	protected _id: number;
 	protected _description?: HTMLElement;
 	protected _image?: HTMLImageElement;
 	protected _title: HTMLElement;

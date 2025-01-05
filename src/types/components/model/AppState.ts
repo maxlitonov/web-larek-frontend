@@ -1,36 +1,22 @@
-import { Order, OrderResult } from "../view/Order";
-import { Product } from "./larekApi";
+import { IOrder } from '../view/Order';
 
-// Какие модальные окна у нас есть
-export enum AppStateModals {
-	basket = 'modal:basket',
-	contacts = 'modal:contacts',
-  payment = 'modal:payment',
-	success = 'modal:success',
-	none = 'modal:none',
+export interface IProduct {
+	id: string;
+	description: string;
+	image: string;
+	title: string;
+	category: string;
+	price: number | null;
 }
 
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
+
 // Модель данных приложения
-export interface AppState {
-  // Загружаемые с сервера данные
-  products: Map<string, Product>;
-
-  // Заполняемые пользователем данные
-  basket: Map<string, Product>
-  basketTotal: number;
-  order: Order;
-
-  // Состояние интерфейса
-  openedModal: AppStateModals;
-  isOrderReady: boolean;
-  modalMessage: string | null;
-  isError: boolean;
-
-  // Действия с API
-  loadProducts(): Promise<void>
-  orderProducts: (order: Order) => Promise<OrderResult[]>
-
-  // Методы для работы с модальными окнами
-	openModal(modal: AppStateModals): void;
-	setMessage(message: string | null, isError: boolean): void;
+export interface IAppState {
+	items: IProduct[];
+	basket: string[];
+	basketTotal: number;
+	order: IOrder;
+	preview: string | null;
+	formErrors: FormErrors;
 }

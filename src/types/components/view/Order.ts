@@ -1,14 +1,21 @@
-export interface Order {
-	payment: 'card' | 'cash';
+export interface IOrder {
+	payment: TOrderPaymentMethod;
 	address: string;
 	email: string;
-	tel: number;
+	phone: string;
+	total: number;
+	items: string[];
 }
 
-export interface OrderResult extends Order{
-  id: number;
+export type TOrder = Omit<IOrder, 'items' | 'total'>;
+
+export type TOrderForm = Pick<IOrder, 'payment' | 'address'>;
+
+export type TOrderContactsForm = Pick<IOrder, 'email' | 'phone'>;
+
+export type TOrderPaymentMethod = 'cash' | 'card';
+
+export interface IOrderResult {
+	id: string;
+	total: number;
 }
-
-export type OrderPayment = Pick<Order, 'payment' | 'address'>;
-
-export type OrderContacts = Pick<Order, 'email' | 'tel'>;

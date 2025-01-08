@@ -6,6 +6,7 @@ import {
 import { IOrder, IOrderResult } from '../../types/components/view/Order';
 import { Api } from '../base/Api';
 
+
 export class larekApi extends Api implements ILarekApi {
 	readonly cdn: string;
 

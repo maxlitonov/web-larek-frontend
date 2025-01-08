@@ -4,7 +4,8 @@ import {
 	ProductApi,
 } from '../../types/components/model/larekApi';
 import { IOrder, IOrderResult } from '../../types/components/view/Order';
-import { Api } from '../base/Api';
+import { Api } from '../base/api';
+
 
 
 export class larekApi extends Api implements ILarekApi {

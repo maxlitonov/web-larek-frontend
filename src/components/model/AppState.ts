@@ -62,7 +62,7 @@ export class AppState extends Model<IAppState> {
 	resetBasket() {
 		this.basket = [];
 		this.basketTotal = 0;
-		this.events.emit('basket:change');
+		this.events.emit('basket:changed');
 	}
 
 	// Очистить order
